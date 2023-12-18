@@ -1,4 +1,4 @@
-package com.github.jbarus.fem.gauss;
+package com.github.jbarus.fem.integration;
 
 import lombok.Getter;
 

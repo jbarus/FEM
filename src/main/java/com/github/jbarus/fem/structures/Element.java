@@ -10,4 +10,8 @@ import lombok.NoArgsConstructor;
 //Class that holds id's of each vertex that belongs to that element
 public class Element {
     private int[] id;
+    double[][] H;
+    double[][] HBC;
+    public double[][] P;
+    double[][] C;
 }

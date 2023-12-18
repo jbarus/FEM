@@ -1,11 +1,14 @@
 package com.github.jbarus.fem.global;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.RealMatrix;
 
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+@Data
 public class UniversalElement {
     private RealMatrix dNdEta;
     private RealMatrix dNdKsi;
