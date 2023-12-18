@@ -3,6 +3,7 @@ package com.github.jbarus.fem;
 import com.github.jbarus.fem.data.DataLoader;
 import com.github.jbarus.fem.data.GlobalData;
 import com.github.jbarus.fem.data.Grid;
+import com.github.jbarus.fem.gauss.GaussQuadrature;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -19,6 +20,8 @@ public class Main {
         dataLoader.loadGlobalData(globalData);
         Grid grid = new Grid(globalData.getNodes(), globalData.getElements());
         dataLoader.loadGrid(grid);
+
+
 
     }
 }
