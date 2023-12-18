@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 //Class that holds id's of each vertex that belongs to that element
 public class Element {
-    int[] id;
+    private int[] id;
 }

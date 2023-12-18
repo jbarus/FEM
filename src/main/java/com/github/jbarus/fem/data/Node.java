@@ -11,4 +11,10 @@ import lombok.NoArgsConstructor;
 public class Node {
     private double x;
     private double y;
+    private int BC;
+
+    public Node(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
 }
