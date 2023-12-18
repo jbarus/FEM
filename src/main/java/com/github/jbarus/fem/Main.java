@@ -1,15 +1,11 @@
 package com.github.jbarus.fem;
 
-import com.github.jbarus.fem.data.DataLoader;
-import com.github.jbarus.fem.data.GlobalData;
-import com.github.jbarus.fem.data.Grid;
-import com.github.jbarus.fem.gauss.GaussQuadrature;
+import com.github.jbarus.fem.global.DataLoader;
+import com.github.jbarus.fem.global.GlobalData;
+import com.github.jbarus.fem.global.UniversalElement;
+import com.github.jbarus.fem.structures.Grid;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
@@ -20,7 +16,7 @@ public class Main {
         dataLoader.loadGlobalData(globalData);
         Grid grid = new Grid(globalData.getNodes(), globalData.getElements());
         dataLoader.loadGrid(grid);
-
+        UniversalElement universalElement = new UniversalElement(3);
 
 
     }

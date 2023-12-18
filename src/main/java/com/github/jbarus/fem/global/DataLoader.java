@@ -1,9 +1,12 @@
-package com.github.jbarus.fem.data;
+package com.github.jbarus.fem.global;
+
+import com.github.jbarus.fem.structures.Element;
+import com.github.jbarus.fem.structures.Grid;
+import com.github.jbarus.fem.structures.Node;
 
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.*;
-import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
 public class DataLoader {

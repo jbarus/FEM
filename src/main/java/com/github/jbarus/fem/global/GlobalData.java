@@ -1,4 +1,4 @@
-package com.github.jbarus.fem.data;
+package com.github.jbarus.fem.global;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
