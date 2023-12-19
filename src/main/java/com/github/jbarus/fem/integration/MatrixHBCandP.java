@@ -7,14 +7,10 @@ import com.github.jbarus.fem.structures.Node;
 import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.RealMatrix;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-public class MatrixHBC {
+public class MatrixHBCandP {
     UniversalElement universalElement;
     GlobalData globalData;
-    public MatrixHBC(UniversalElement universalElement, GlobalData globalData){
+    public MatrixHBCandP(UniversalElement universalElement, GlobalData globalData){
         this.universalElement = universalElement;
         this.globalData = globalData;
     }
@@ -28,16 +24,24 @@ public class MatrixHBC {
 
         RealMatrix HBCPartial = MatrixUtils.createRealMatrix(4,4);
         RealMatrix HBC = MatrixUtils.createRealMatrix(4,4);
+
+        RealMatrix PVectorPartial = MatrixUtils.createRealMatrix(4,1);
+        RealMatrix PVector = MatrixUtils.createRealMatrix(4,1);
+
         for (int i = 0; i < 4; i++) {
             if(nodes[i%4].getBC() != 0 && nodes[i%4].getBC() == nodes[(i+1)%4].getBC()){
                 for (int j = 0; j < universalElement.getNumberOfPoints(); j++) {
                     HBCPartial = HBCPartial.add(universalElement.getSurfaces()[i].getRowMatrix(j).transpose().multiply(universalElement.getSurfaces()[i].getRowMatrix(j)).scalarMultiply(universalElement.getWeights()[j]));
+                    PVectorPartial = PVectorPartial.add(universalElement.getSurfaces()[i].getRowMatrix(j).transpose().scalarMultiply(globalData.getTot()).scalarMultiply(universalElement.getWeights()[j]));
                 }
                 HBC = HBC.add(HBCPartial.scalarMultiply(globalData.getAlfa()).scalarMultiply(det[i]/2.0));
+                PVector = PVector.add(PVectorPartial.scalarMultiply(globalData.getAlfa()).scalarMultiply(det[i]/2.0));
             }
             HBCPartial = MatrixUtils.createRealMatrix(4,4);
+            PVectorPartial = MatrixUtils.createRealMatrix(4,1);
         }
 
         element.setHBC(HBC.getData());
+        element.setP(PVector.getData());
     }
 }
