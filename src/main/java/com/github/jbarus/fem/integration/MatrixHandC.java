@@ -3,7 +3,6 @@ package com.github.jbarus.fem.integration;
 import com.github.jbarus.fem.global.GlobalData;
 import com.github.jbarus.fem.global.UniversalElement;
 import com.github.jbarus.fem.structures.Element;
-import com.github.jbarus.fem.structures.Grid;
 import com.github.jbarus.fem.structures.Node;
 import org.apache.commons.math3.linear.LUDecomposition;
 import org.apache.commons.math3.linear.MatrixUtils;
@@ -11,11 +10,11 @@ import org.apache.commons.math3.linear.RealMatrix;
 
 import java.util.Arrays;
 
-public class MatrixH {
+public class MatrixHandC {
     private UniversalElement universalElement;
     private GlobalData globalData;
 
-    public MatrixH(UniversalElement universalElement, GlobalData globalData) {
+    public MatrixHandC(UniversalElement universalElement, GlobalData globalData) {
         this.universalElement = universalElement;
         this.globalData = globalData;
     }
@@ -36,23 +35,31 @@ public class MatrixH {
         calculateDXandDY(dNdX, dNdY, reverseJacobianMatrix);
 
         RealMatrix[] HPartial = new RealMatrix[universalElement.getNumberOfPoints()*universalElement.getNumberOfPoints()];
-        calculatePartialH(HPartial,dNdX,dNdY,detJacobian);
-        //C = new RealMatrix[numberOfPoints*numberOfPoints];
+        RealMatrix[] CPartial = new RealMatrix[universalElement.getNumberOfPoints()*universalElement.getNumberOfPoints()];
+        calculatePartialH(HPartial,CPartial,dNdX,dNdY,detJacobian);
 
+        RealMatrix C = MatrixUtils.createRealMatrix(4,4);
         RealMatrix H = MatrixUtils.createRealMatrix(4,4);
         for (int i = 0; i < universalElement.getNumberOfPoints() * universalElement.getNumberOfPoints(); i++) {
             HPartial[i] = HPartial[i].scalarMultiply(universalElement.getWeights()[i% universalElement.getNumberOfPoints()]).scalarMultiply(universalElement.getWeights()[1/ universalElement.getNumberOfPoints()]);
             H = H.add(HPartial[i]);
-        }
 
+            CPartial[i] = CPartial[i].scalarMultiply(universalElement.getWeights()[i% universalElement.getNumberOfPoints()]).scalarMultiply(universalElement.getWeights()[1/ universalElement.getNumberOfPoints()]);
+            C= C.add(CPartial[i]);
+        }
+        System.out.println(Arrays.deepToString(C.getData()));
+        element.setC(C.getData());
         element.setH(H.getData());
     }
 
-    private void calculatePartialH(RealMatrix[] H, RealMatrix dNdX, RealMatrix dNdY, double[] detJacobian) {
+    private void calculatePartialH(RealMatrix[] H, RealMatrix[] C, RealMatrix dNdX, RealMatrix dNdY, double[] detJacobian) {
         for (int i = 0; i < H.length; i++) {
             H[i] = dNdX.getRowMatrix(i).transpose().multiply(dNdX.getRowMatrix(i));
             H[i] = H[i].add(dNdY.getRowMatrix(i).transpose().multiply(dNdY.getRowMatrix(i)));
             H[i] = H[i].scalarMultiply(globalData.getConductivity()).scalarMultiply(detJacobian[i]);
+
+            C[i] = universalElement.getNValues().getRowMatrix(i).transpose().multiply(universalElement.getNValues().getRowMatrix(i));
+            C[i] = C[i].scalarMultiply(globalData.getSpecificHeat()).scalarMultiply(globalData.getDensity()).scalarMultiply(detJacobian[i]);
         }
     }
 

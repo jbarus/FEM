@@ -20,6 +20,5 @@ public class SystemOfEquations {
                 PGlobal.addToEntry(element.getId()[i]-1,0,element.getP()[i][0]);
             }
         }
-        System.out.println(Arrays.deepToString(PGlobal.getData()));
     }
 }

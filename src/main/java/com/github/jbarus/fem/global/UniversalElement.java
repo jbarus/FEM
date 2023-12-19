@@ -26,6 +26,7 @@ public class UniversalElement {
         this.numberOfPoints = numberOfPoints;
         dNdEta = MatrixUtils.createRealMatrix(numberOfPoints*numberOfPoints,4);
         dNdKsi = MatrixUtils.createRealMatrix(numberOfPoints*numberOfPoints,4);
+        NValues = MatrixUtils.createRealMatrix(numberOfPoints*numberOfPoints,4);
         surfaces = new RealMatrix[4];
         for (int i = 0; i < surfaces.length; i++) {
             surfaces[i] = MatrixUtils.createRealMatrix(numberOfPoints,4);
@@ -40,6 +41,7 @@ public class UniversalElement {
             for (int j = 0; j < 4; j++) {
                 dNdKsi.setEntry(i,j,dNdKsiFunc[j].apply(points[i/numberOfPoints]));
                 dNdEta.setEntry(i,j,dNdEtaFunc[j].apply(points[i%numberOfPoints]));
+                NValues.setEntry(i,j,NFunc[j].apply(points[i % numberOfPoints],points[i/numberOfPoints]));
             }
         }
         for (int i = 0; i < numberOfPoints; i++) {
