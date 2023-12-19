@@ -47,7 +47,6 @@ public class MatrixHandC {
             CPartial[i] = CPartial[i].scalarMultiply(universalElement.getWeights()[i% universalElement.getNumberOfPoints()]).scalarMultiply(universalElement.getWeights()[1/ universalElement.getNumberOfPoints()]);
             C= C.add(CPartial[i]);
         }
-        System.out.println(Arrays.deepToString(C.getData()));
         element.setC(C.getData());
         element.setH(H.getData());
     }
