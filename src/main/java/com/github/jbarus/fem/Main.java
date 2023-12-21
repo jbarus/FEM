@@ -17,12 +17,12 @@ import java.util.Arrays;
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
     public static void main(String[] args) {
-        DataLoader dataLoader = new DataLoader("src/main/resources/Test4_31_31_trapez.txt");
+        DataLoader dataLoader = new DataLoader("src/main/resources/Test2_4_4_MixGrid.txt");
         GlobalData globalData = new GlobalData();
         dataLoader.loadGlobalData(globalData);
         Grid grid = new Grid(globalData.getNodes(), globalData.getElements());
         dataLoader.loadGrid(grid);
-        UniversalElement universalElement = new UniversalElement(2);
+        UniversalElement universalElement = new UniversalElement(4);
         MatrixHandC matrixHandC = new MatrixHandC(universalElement,globalData);
         MatrixHBCandP matrixHBCandP = new MatrixHBCandP(universalElement,globalData);
         SystemOfEquations systemOfEquations = new SystemOfEquations(grid,globalData);

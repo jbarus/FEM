@@ -34,6 +34,13 @@ public class SystemOfEquations {
         }
     }
 
+    public double[] calculateTemperature(){
+        DecompositionSolver solver = new LUDecomposition(HGlobal).getSolver();
+        RealVector constants = new ArrayRealVector(PGlobal.getColumn(0));
+        RealVector solutiones = solver.solve(constants);
+        return  solutiones.toArray();
+    }
+
     public double[][] simulateTemperature(int length){
         RealMatrix L = MatrixUtils.createRealMatrix(16,16);
         RealMatrix P = MatrixUtils.createRealMatrix(16,1);

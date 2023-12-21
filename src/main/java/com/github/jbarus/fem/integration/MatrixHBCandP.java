@@ -31,8 +31,14 @@ public class MatrixHBCandP {
         for (int i = 0; i < 4; i++) {
             if(nodes[i%4].getBC() != 0 && nodes[i%4].getBC() == nodes[(i+1)%4].getBC()){
                 for (int j = 0; j < universalElement.getNumberOfPoints(); j++) {
-                    HBCPartial = HBCPartial.add(universalElement.getSurfaces()[i].getRowMatrix(j).transpose().multiply(universalElement.getSurfaces()[i].getRowMatrix(j)).scalarMultiply(universalElement.getWeights()[j]));
-                    PVectorPartial = PVectorPartial.add(universalElement.getSurfaces()[i].getRowMatrix(j).transpose().scalarMultiply(globalData.getTot()).scalarMultiply(universalElement.getWeights()[j]));
+                    if(i>1){
+                        HBCPartial = HBCPartial.add(universalElement.getSurfaces()[i].getRowMatrix(j).transpose().multiply(universalElement.getSurfaces()[i].getRowMatrix(j)).scalarMultiply(universalElement.getWeights()[universalElement.getNumberOfPoints()-j-1]));
+                        PVectorPartial = PVectorPartial.add(universalElement.getSurfaces()[i].getRowMatrix(j).transpose().scalarMultiply(globalData.getTot()).scalarMultiply(universalElement.getWeights()[universalElement.getNumberOfPoints()-j-1]));
+                    }else{
+                        HBCPartial = HBCPartial.add(universalElement.getSurfaces()[i].getRowMatrix(j).transpose().multiply(universalElement.getSurfaces()[i].getRowMatrix(j)).scalarMultiply(universalElement.getWeights()[j]));
+                        PVectorPartial = PVectorPartial.add(universalElement.getSurfaces()[i].getRowMatrix(j).transpose().scalarMultiply(globalData.getTot()).scalarMultiply(universalElement.getWeights()[j]));
+                    }
+
                 }
                 HBC = HBC.add(HBCPartial.scalarMultiply(globalData.getAlfa()).scalarMultiply(det[i]/2.0));
                 PVector = PVector.add(PVectorPartial.scalarMultiply(globalData.getAlfa()).scalarMultiply(det[i]/2.0));

@@ -41,10 +41,10 @@ public class MatrixHandC {
         RealMatrix C = MatrixUtils.createRealMatrix(4,4);
         RealMatrix H = MatrixUtils.createRealMatrix(4,4);
         for (int i = 0; i < universalElement.getNumberOfPoints() * universalElement.getNumberOfPoints(); i++) {
-            HPartial[i] = HPartial[i].scalarMultiply(universalElement.getWeights()[i% universalElement.getNumberOfPoints()]).scalarMultiply(universalElement.getWeights()[1/ universalElement.getNumberOfPoints()]);
+            HPartial[i] = HPartial[i].scalarMultiply(universalElement.getWeights()[i% universalElement.getNumberOfPoints()]).scalarMultiply(universalElement.getWeights()[i/ universalElement.getNumberOfPoints()]);
             H = H.add(HPartial[i]);
 
-            CPartial[i] = CPartial[i].scalarMultiply(universalElement.getWeights()[i% universalElement.getNumberOfPoints()]).scalarMultiply(universalElement.getWeights()[1/ universalElement.getNumberOfPoints()]);
+            CPartial[i] = CPartial[i].scalarMultiply(universalElement.getWeights()[i% universalElement.getNumberOfPoints()]).scalarMultiply(universalElement.getWeights()[i/ universalElement.getNumberOfPoints()]);
             C= C.add(CPartial[i]);
         }
         element.setC(C.getData());

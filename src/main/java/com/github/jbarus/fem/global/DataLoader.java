@@ -94,7 +94,6 @@ public class DataLoader {
         while (scanner.hasNext()){
             grid.getNodes()[Integer.parseInt(scanner.next().replace(",",""))-1].setBC(1);
         }
-        System.out.println("dupa");
     }
 
     public void testFile(){
