@@ -12,6 +12,7 @@ import com.github.jbarus.fem.structures.Node;
 import com.github.jbarus.fem.utils.FileGenerator;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
@@ -22,7 +23,7 @@ public class Main {
         dataLoader.loadGlobalData(globalData);
         Grid grid = new Grid(globalData.getNodes(), globalData.getElements());
         dataLoader.loadGrid(grid);
-        UniversalElement universalElement = new UniversalElement(4);
+        UniversalElement universalElement = new UniversalElement(2);
         MatrixHandC matrixHandC = new MatrixHandC(universalElement,globalData);
         MatrixHBCandP matrixHBCandP = new MatrixHBCandP(universalElement,globalData);
         SystemOfEquations systemOfEquations = new SystemOfEquations(grid,globalData);
@@ -38,8 +39,13 @@ public class Main {
         systemOfEquations.calculateGlobal();
 
         double[][] simulatedTemperature = systemOfEquations.simulateTemperature(10);
-        for (double[] doubles : simulatedTemperature) {
+        /*for (double[] doubles : simulatedTemperature) {
             System.out.println(Arrays.toString(doubles));
+        }*/
+        FileGenerator.generateFiles(simulatedTemperature,grid);
+
+        for (int i = 0; i < simulatedTemperature.length; i++) {
+            System.out.println(Arrays.stream(simulatedTemperature[i]).max().getAsDouble()+" "+Arrays.stream(simulatedTemperature[i]).min().getAsDouble());
         }
 
         //FileGenerator.generateFiles(simulatedTemperature,grid);

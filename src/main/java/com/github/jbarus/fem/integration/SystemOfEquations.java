@@ -26,8 +26,10 @@ public class SystemOfEquations {
         for(Element element : grid.getElements()){
             for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 4; j++) {
-                    HGlobal.addToEntry(element.getId()[i]-1,element.getId()[j]-1,element.getH()[i][j]+element.getHBC()[i][j]);
-                    CGlobal.addToEntry(element.getId()[i]-1,element.getId()[j]-1,element.getC()[i][j]);
+                    HGlobal.addToEntry(element.getId()[i]-1,element.getId()[j]-1,
+                            element.getH()[i][j]+element.getHBC()[i][j]);
+                    CGlobal.addToEntry(element.getId()[i]-1,element.getId()[j]-1
+                            ,element.getC()[i][j]);
                 }
                 PGlobal.addToEntry(element.getId()[i]-1,0,element.getP()[i][0]);
             }
@@ -49,7 +51,8 @@ public class SystemOfEquations {
         for (int i = 0; i < start.length; i++) {
             start[i] = 100;
         }
-        P = PGlobal.add(CGlobal.scalarMultiply(1.0/globalData.getSimulationStepTime()).multiply(MatrixUtils.createColumnRealMatrix(start)));
+        P = PGlobal.add(CGlobal.scalarMultiply(1.0/globalData.getSimulationStepTime())
+                .multiply(MatrixUtils.createColumnRealMatrix(start)));
 
         DecompositionSolver solver = new LUDecomposition(L).getSolver();
         RealVector constants = new ArrayRealVector(P.getColumn(0));
@@ -58,7 +61,8 @@ public class SystemOfEquations {
         double[][] out = new double[length][grid.getNodes().length];
         out[0] = solution.toArray();
         for (int i = 1; i < length; i++) {
-            P = PGlobal.add(CGlobal.scalarMultiply(1.0/globalData.getSimulationStepTime()).multiply(MatrixUtils.createColumnRealMatrix(solution.toArray())));
+            P = PGlobal.add(CGlobal.scalarMultiply(1.0/globalData.getSimulationStepTime())
+                    .multiply(MatrixUtils.createColumnRealMatrix(solution.toArray())));
             constants = new ArrayRealVector(P.getColumn(0));
             solution = solver.solve(constants);
             out[i] = solution.toArray();
